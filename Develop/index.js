@@ -1,4 +1,5 @@
 // TODO: Include packages needed for this application
+const { error } = require('console');
 const fs = require('fs');
 const inquirer = require('inquirer');
 const generateMarkdown = require('./utils/generateMarkdown.js');
@@ -9,7 +10,7 @@ const questions = () => {
         {
             type: 'input',
             name: 'title',
-            message: 'Title of Project',
+            message: 'What is the title of the Project? (Required)',
             validate: titleInput => {
                 if (titleInput) {
                 return true;
@@ -22,7 +23,7 @@ const questions = () => {
         {
             type: 'input',
             name: 'description',
-            message: 'Description of Project',
+            message: 'Provide a description of the Project',
             validate: descriptionInput => {
                 if (descriptionInput) {
                     return true;
@@ -48,40 +49,98 @@ const questions = () => {
         {
             type: 'input',
             name: 'installation',
-            message: 'Installation Instructions (optional)',
+            message: 'How do you instal your project? (Required)',
+            validate: installationInput => {
+                if (installationInput) {
+                    return true;
+                } else {
+                    console.log('You need to provide installation info!')
+                    return false;
+                }
+            }
         },
         {
             type: 'input',
             name: 'usage',
-            message: 'Usage (optional)',
+            message: 'How do you use this project? (Required)',
+            validate: usageInput => {
+                if (usageInput) {
+                    return true;
+                } else {
+                    console.log('Please provide information on how to use project!')
+                    return false;
+                }
+            }        
         },
         {
-            type: 'confirm',
+            type: 'checkbox',
             name: 'License',
-            message: 'License (optional)',
-            default: false
+            message: 'Choose a License (Required)',
+            validate: licenseInput => {
+                if (licenseInput) {
+                    return true;
+                } else {
+                    console.log('Please pick a license for the project!')
+                    return false;
+                }
+            }
         },
         {
             type: 'input',
-            name: 'Contributing',
-            messafety: 'Contributing Documentation  (optional)',
+            name: 'Contribution',
+            messafety: 'How should you contribute to this project (Required)',
+            validate: contributionInput => {
+                if (contributionInput) {
+                    return true;
+                } else {
+                    console.log('Please provide information on how to contribute to use this project!')
+                    return false;
+                }
+            }
         },
         {
             type: 'input',
-            name: 'Test',
-            message: 'Test Results (optional)',
+            name: 'test',
+            message: 'How to test this project (Required)',
+            validate: testInput => {
+                if (testInput) {
+                    return true;
+                } else {
+                    console.log('Please describe how to test this project')
+                    return false;
+                }
+            }
         },
         {
             type: 'input',
-            name: 'Questions', 
-            message: 'Questions'
+            name: 'github', 
+            message: 'Enter your github username (Required)',
+            validate: githubInput => {
+                if (githubInput) {
+                    return true;
+                } else {
+                    console.log('Please enter your github username!')
+                    return false;
+                }
+            }
+        },
+        {
+            type: 'input',
+            name: 'email',
+            message: 'Please enter your email (Optional)',
         },
 
     ]);
 };
 
 // TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
+function writeToFile(fileName, data) {
+    fs.writeFile(fileName, data, (err) => {
+        if (err)
+            throw err;
+            console.log('Info transferred to the README file successfully!')
+    });
+}
 
 // TODO: Create a function to initialize app
 function init() {
